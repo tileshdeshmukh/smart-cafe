@@ -152,8 +152,8 @@ th, td {
             <td style="color: white">
        
              <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" name="customSwitch[]">
-                  <label class="custom-control-label" for="customSwitch1"></label>
+                  <input type="checkbox" class="custom-control-input" id='customSwitch<?php echo $ind;?>' name="customSwitch[<?php echo $ind;?>]">
+                  <label class="custom-control-label" for="customSwitch<?php echo $ind;?>"></label>
               </div>
              
             
