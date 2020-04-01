@@ -1,7 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <style type="text/css">
+
+
+<style type="text/css">
       
   
 th, td {
@@ -13,6 +15,14 @@ th, td {
 
     </style>
     <!-- Required meta tags -->
+    
+
+
+
+
+
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -23,6 +33,10 @@ th, td {
 
     <title>Hello, world!</title>
   </head>
+ 
+
+
+
   <body style="background-color: black">
    
 <!-- Create nevbar -->
@@ -53,7 +67,14 @@ th, td {
 </div>
 
 
-<!-- Create carousel -->
+
+
+
+
+
+
+
+.<!-- Create carousel -->
 <div>
 
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="padding: 20px 10px 00px 10px">
@@ -94,26 +115,34 @@ th, td {
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div
+</div>
 
 </div>
+
+
+
+
+
+
+
+
 
 <!-- <marquee style="color: white"> CREATED BY DAMINI, SAYlI, SHWETA, T!LESH </marquee>
 -->
 <!-- show post data -->
   
-
+<form action="/index.php">
 <div class="row" style="padding: 00px 70px 70px 70px">
 
   <?php
     include('db.php');
-    $query = mysqli_query($conn,"select * from post");
+    $query = mysqli_query($conn,"select * from post ORDER BY price ASC");
     $ind = 0;
 
     while($row = mysqli_fetch_array($query)){
 
 ?> 
-   <table style="width: 100%">
+   <table style="width: 100%" name="myt">
         <div style="padding: 00px 100px 20px 100px">
                   <tr style="background-color: #262626">
           
@@ -131,18 +160,6 @@ th, td {
             </td>
             <td> 
 
-            <!--    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                      <option value="1" selected>1</option>
-                      <option value="2">2</option>
-                     <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                       <option value="7">7</option>
-                       <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                </select>  -->
                <h6 style="color: white;"> Countity</h6>
              </td>
               <td style="padding-right: 40px">
@@ -152,7 +169,9 @@ th, td {
             <td style="color: white">
        
              <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id='customSwitch<?php echo $ind;?>' name="customSwitch[<?php echo $ind;?>]">
+
+                  <input type="checkbox" class="custom-control-input" id='customSwitch<?php echo $ind;?>' name="customSwitch[<?php echo $ind;?>]" value="tilesh">
+
                   <label class="custom-control-label" for="customSwitch<?php echo $ind;?>"></label>
               </div>
              
@@ -168,11 +187,12 @@ th, td {
 $ind++;
    }  ?>
 
- 
+
+</form> 
 <form class="form-inline">
   <div class="form-group" style="padding-top: 30px; padding-left: 450px;">
-    <label for="inputPassword6" style="color: white">Table NO:</label>
-    <input type="number" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" placeholder="Number" required="required">
+    <label style="color: white">Table NO:</label>
+    <input type="number" id="inputPassword6" class="form-control mx-sm-3" placeholder="Number" required="required">
   </div>
 </form> 
 
@@ -183,12 +203,31 @@ $ind++;
 <table>
 <tr>
   <td style="width: 60%">
-<button type="button" class="btn btn-primary">Check Order</button>
+<button type="button" onclick="CheckAll()" class="btn btn-primary" value="check">Check Order</button>
  </td>
  <td style="width: 9%">
   <button style="" type="button" class="btn btn-primary">Place Order</button>
     </td></tr></table>
 </div>
+
+<script type="text/javascript" language="javascript">
+  
+  function CheckAll(){
+
+      var name = document.forms[0];
+      var txt = "";
+      
+      for (var i = 0; i < name.length; i++) {
+        
+          if(name[i].checked){
+
+            txt = txt + name[i].value + "";
+          }
+      }
+      alert( document.getElementById("order").value = "you ordered" + txt );
+  }
+
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
