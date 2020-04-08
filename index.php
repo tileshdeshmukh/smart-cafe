@@ -1,10 +1,53 @@
 <!doctype html>
 <html lang="en">
+
+
+
   <head>
 
 
 <style type="text/css">
       
+ /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+} 
+//-------------------------------------------------------------			
+
+
   
 th, td {
 
@@ -36,8 +79,22 @@ th, td {
  
 
 
-
   <body style="background-color: black">
+  
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	<script> 
+	
+	 console.log(ck_string);
+	
+	</script>
+  </div>
+
+</div>
    
 <!-- Create nevbar -->
 <div>
@@ -136,10 +193,15 @@ th, td {
 
   <?php
     include('db.php');
-    $query = mysqli_query($conn,"select * from post ORDER BY price ASC");
+    $query = mysqli_query($conn,"select * from post ORDER BY id ASC");
     $ind = 0;
+$title_f = array();
+$price_f = array();
 
     while($row = mysqli_fetch_array($query)){
+		    $title_f[] = $row['title'];
+			$price_f[] = $row['price'];
+
 
 ?> 
    <table style="width: 100%" name="myt">
@@ -170,9 +232,9 @@ th, td {
        
              <div class="custom-control custom-switch">
 
-                  <input type="checkbox" class="custom-control-input" id='customSwitch<?php echo $ind;?>' name="customSwitch[<?php echo $ind;?>]" value="tilesh">
+                  <input type="checkbox" class="custom-control-input" id='customSwitch[<?php echo $ind;?>]'  name='customSwitch' value='<?php echo $row['title'];?>'>
 
-                  <label class="custom-control-label" for="customSwitch<?php echo $ind;?>"></label>
+                  <label class="custom-control-label" for="customSwitch[<?php echo $ind;?>]"></label>
               </div>
              
             
@@ -185,13 +247,15 @@ th, td {
    
  <?php 
 $ind++;
-   }  ?>
+   }
+
+   ?>
 
 
 </form> 
 <form class="form-inline">
   <div class="form-group" style="padding-top: 30px; padding-left: 450px;">
-    <label style="color: white">Table NO:</label>
+    <label style="color: white">Table Number:</label>
     <input type="number" id="inputPassword6" class="form-control mx-sm-3" placeholder="Number" required="required">
   </div>
 </form> 
@@ -203,14 +267,16 @@ $ind++;
 <table>
 <tr>
   <td style="width: 60%">
-<button type="button" onclick="CheckAll()" class="btn btn-primary" value="check">Check Order</button>
+<button type="button" onclick="CheckAll()" id="myBtn" class="btn btn-primary" value="check">Check Order</button>
  </td>
  <td style="width: 9%">
   <button style="" type="button" class="btn btn-primary">Place Order</button>
     </td></tr></table>
 </div>
 
+
 <script type="text/javascript" language="javascript">
+	
   
   function CheckAll(){
 
@@ -224,8 +290,63 @@ $ind++;
             txt = txt + name[i].value + "";
           }
       }
+	  
+
+	  
       alert( document.getElementById("order").value = "you ordered" + txt );
   }
+  
+  //-----------------------
+  
+  // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+	
+
+	
+	//var checkBoxes = document.getElementsByTagName('customSwitch').checked;
+			var ck_string = "";
+            $.each($("input[name='customSwitch']:checked"), function(){  
+                ck_string +=','+$(this).val();  
+            });
+            if (ck_string ){
+				ck_string = ck_string.substring(1);
+				var dss =  "Your want to order:";
+					dss += "\n"+ ck_string;
+            alert(dss);
+            }else{
+                alert('Please choose atleast one value.');
+            }
+			
+			 
+			
+
+  	
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+	modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} 
+  
+  //----------------------------
+  
+  
 
 </script>
 
