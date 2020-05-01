@@ -7,6 +7,8 @@
 
 
 <style type="text/css">
+
+
       
  /* The Modal (background) */
 .modal {
@@ -107,21 +109,34 @@ th, td {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
    <li class="nav-item active">
-        <a class="nav-link" href="#"><h6 class="nev">Home </h6><span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php"><h6 class="nev">Home </h6><span class="sr-only">(current)</span></a>
       </li> 
     <li class="nav-item active">
-        <a class="nav-link" href="#"> <h6 class="nev">  offer </h6><span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="offershow.php"> <h6 class="nev">  offer </h6><span class="sr-only">(current)</span></a>
       </li> 
 
 
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form method="POST" action="search.php" class="form-inline my-2 my-lg-0">
+      <?php
+      if(isset($_POST['se'])) {
+        
+      
+      $tit=$_POST['tit'];
+
+
+      }
+      ?>
+
+  <input class="form-control mr-sm-2" type="search" name="tit" placeholder="Search" aria-label="Search">
+     
+     <a href="search.php?t=<?php $tit ?> "> <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="se" >Search
+     </button></a>
+
     </form>
     </div>
     </nav>
-</div>
+</div>  
 
 
 
@@ -131,7 +146,7 @@ th, td {
 
 
 
-.<!-- Create carousel -->
+<!-- Create carousel -->
 <div>
 
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="padding: 20px 10px 00px 10px">
@@ -214,7 +229,7 @@ $price_f = array();
             </td>
             <td style="width: 65%; color: white">
             
-                <h5 class="title"> <?php echo $row['title']; ?> </h5>
+                <h5 class="title"> <!-- &nbsp;&nbsp; --><p style="width: : 50%"> <?php echo $row['title']; ?> </p> </h5>
             </td> 
               <td style="width: 20%; color: white">
               
@@ -225,7 +240,7 @@ $price_f = array();
                <h6 style="color: white;"> Countity</h6>
              </td>
               <td style="padding-right: 40px">
-                <input type="number" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" placeholder="0" required="required">
+                <input type="number" id="cou" class="form-control mx-sm-3"  placeholder="1"  required>
             </td>
 
             <td style="color: white">
@@ -254,9 +269,9 @@ $ind++;
 
 </form> 
 <form class="form-inline">
-  <div class="form-group" style="padding-top: 30px; padding-left: 450px;">
+  <div class="form-group" style="padding-top: 30px; padding-left: 500px;">
     <label style="color: white">Table Number:</label>
-    <input type="number" id="inputPassword6" class="form-control mx-sm-3" placeholder="Number" required="required">
+    <input type="number" id="inputPassword6" class="form-control mx-sm-3" placeholder="Number" required>
   </div>
 </form> 
 
@@ -267,10 +282,10 @@ $ind++;
 <table>
 <tr>
   <td style="width: 60%">
-<button type="button" onclick="CheckAll()" id="myBtn" class="btn btn-primary" value="check">Check Order</button>
+<button type="button" onclick="CheckAll()" id="myBtn" class="btn btn-primary" value="check" name="ch">Check Order</button>
  </td>
  <td style="width: 9%">
-  <button style="" type="button" class="btn btn-primary">Place Order</button>
+  <button style="" type="button" class="btn btn-primary" name="ord">Place Order</button>
     </td></tr></table>
 </div>
 
@@ -281,6 +296,7 @@ $ind++;
   function CheckAll(){
 
       var name = document.forms[0];
+      var price = document.forms[0];
       var txt = "";
       
       for (var i = 0; i < name.length; i++) {
@@ -314,12 +330,15 @@ btn.onclick = function() {
 	
 	//var checkBoxes = document.getElementsByTagName('customSwitch').checked;
 			var ck_string = "";
+      var c =1;
             $.each($("input[name='customSwitch']:checked"), function(){  
-                ck_string +=','+$(this).val();  
+                ck_string +="\n"+ c +" " +$(this).val(); 
+                c +=1;  
             });
             if (ck_string ){
-				ck_string = ck_string.substring(1);
+				ck_string =ck_string.substring(1);
 				var dss =  "Your want to order:";
+            dss += "\n-------------------------------------";
 					dss += "\n"+ ck_string;
             alert(dss);
             }else{
@@ -346,9 +365,53 @@ window.onclick = function(event) {
   
   //----------------------------
   
-  
+  <?php
+  include('db.php');
+    if(isset($_POST["ord"]))
+    {
+      if(!empty($_POST["customSwitch"])){
+        foreach ($_POST["customSwitch"] as $ckeck) {
+          $s=implode('',$ckeck);
+          $q = mysqli_query($conn,"select * from post where title='$s'");
+          while ($r = mysqli_fetch_array($q)) {
+            $t = $r['title'];
+            $p = $r['price'];
 
+            $qu = mysqli_query($conn,"insert into order(title, price) values('$t',$p)");
+
+          }
+            $qu = mysqli_query($conn,"insert into oder(title, price) values('$t',$p)");
+        }
+      }
+    }
+?>
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><br><br>
+<br><br><br><br><br><br>
+
+<!-- Footer con -->
+<div style="padding: 0% 3% 0% 3%">
+<div class="card text-white bg-dark mb-3" style="max-width: 100rem;">
+  <div class="card-header">Footer</div>
+  <div class="card-body">
+    <h5 class="card-title">Dark card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div></div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

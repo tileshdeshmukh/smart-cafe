@@ -4,18 +4,15 @@ if(isset($_POST['btn']))
 {
   $title = $_POST['title'];
   $discription = $_POST['discription'];
-  $additional = $_POST['additional'];
-  $category = $_POST['category'];
-  $price = $_POST['price'];
   $image = $_FILES['image']['name'];
   $temp = $_FILES['image']['tmp_name'];
 
   move_uploaded_file($temp, "img/$image");
 
-  $sql = mysqli_query($conn, "insert into post(title, discription,additional,category,price,image) values ('$title','$discription','$additional','$category','$price','$image')");
+  $sql = mysqli_query($conn, "insert into offer_img(title, discription, name) values ('$title','$discription','$image')");
 
   if($sql == 1){
-    echo '<script>alert("Data Successfully entered");</script>';
+    echo '<script>alert("Offer Successfully entered");</script>';
   }
   else{
     echo '<script>alert("error Occured");</script>';
@@ -50,18 +47,15 @@ if(isset($_POST['btn']))
     <div class="navbar-nav navbar-expand-lg">
       <a class="ad1 nav-item btn btn-outline-primary"  href="foodlist.php">Food List <span class="sr-only">(current)</span></a>
     </div>
->
-
-      
+    &nbsp;&nbsp;
     <div class="navbar-nav navbar-expand-lg">
-      <a class="ad1 nav-item btn btn-outline-primary"  href="offer.php"> Add Offers img <span class="sr-only">(current)</span></a>
+      <a class="ad1 nav-item btn btn-outline-primary"  href="post.php"> Add Food Menu <span class="sr-only">(current)</span></a>
     </div>
 
     <div>
-      <a  style="color: white; padding-left: 600%; font-size: 120%"> Admin</a>
+      <a  style="color: white; padding-left: 650%; font-size: 120%"> Admin</a>
 
     </div>
-  </div>
   </div>
 
     <div><a class="btn btn-outline-danger" href="logout.php" style="color: white; text-decoration: none;">  Log-out</a>
@@ -73,9 +67,16 @@ if(isset($_POST['btn']))
     <br>
    
     <div class="alert alert btn-dark col-md-8 container" style="border: 5px blue" role="alert">
-      <center><h1>Write a Post</h1></center>
+      <center><h2>Add Offer Image</h2></center>
       <form method="POST" action=""  enctype="multipart/form-data">
         <div class="form-group">
+
+
+
+ <div class="form-group">
+   
+    <br>
+     <div class="form-group">
     <label>Title</label>
     <input name="title" type="text" class="form-control" placeholder="Title" required>
   </div>
@@ -83,46 +84,11 @@ if(isset($_POST['btn']))
    <label>Discription</label>
    <textarea name="discription" class="form-control" rows="8" required></textarea>
  </div>
- <div class="form-group">
-  <label>Additional</label>
-  <textarea name="additional" class="form-control" rows="5" required></textarea>
-</div>
-<div class="form-group">
-    <label for="exampleFormControlSelect1">Category</label>
-    <select name="category" class="form-control" id="exampleFormControlSelect1" required>
-      <option> Fast  </option>
-      <option> cooldrink  </option>
-      <option> Soop  </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-      <option>   </option>
-    
-      </select>
-  </div>
-<div class="form-group">
-<label>Price</label>
-<input name="price" type="text" class="form-control" placeholder="Price" required>
-</div>
-
-
-
- <div class="form-group">
-    <label for="exampleFormControlFile1">Image:</label>
-    <br>
+  <label for="exampleFormControlFile1">Add Offer Image:</label><br>
     <input type="hidden" name="size" value="1000000" required="required">
     <input type="file" name="image" required="required">
   </div>
-  <center><button class="btn btn-outline-primary" type="submit" name="btn">POST</button></center>
+  <center><button class="btn btn-outline-primary" type="submit" name="btn">ADD</button></center>
       </form>
     </div>
 
@@ -143,20 +109,4 @@ if(isset($_POST['btn']))
 
 
 
-<!--
-
-<div class="row">
-
-  <?php
-    include('db.php');
-    $query = mysqli_query($conn,"select * from post");
-
-    while($row = mysqli_fetch_array($query)){
-?>
-      <img class="img-tag" src="img/im2.jpg">
-      <h6 class="title"> <?php echo $row['title']; ?> </h6>
-      <h6 class="price"> <?php echo $row['price']; ?> </h6>
-    
- <?php   }  ?>
--->
 

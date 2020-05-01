@@ -1,27 +1,23 @@
 <?php
 include('db.php');
-if(isset($_POST['btn']))
-{
-  $title = $_POST['title'];
-  $discription = $_POST['discription'];
-  $additional = $_POST['additional'];
-  $category = $_POST['category'];
-  $price = $_POST['price'];
-  $image = $_FILES['image']['name'];
-  $temp = $_FILES['image']['tmp_name'];
+$eid = $_GET['eid'];
 
-  move_uploaded_file($temp, "img/$image");
+  $sql = mysqli_query($conn, "select * from post where id = $eid ");
 
-  $sql = mysqli_query($conn, "insert into post(title, discription,additional,category,price,image) values ('$title','$discription','$additional','$category','$price','$image')");
+  while($row=mysqli_fetch_assoc($sql))
+  {
 
-  if($sql == 1){
-    echo '<script>alert("Data Successfully entered");</script>';
+      $title = $row['title'];
+      $discription = $row['discription'];
+      $additional = $row['additional'];
+      $category = $row['category'];
+      $price = $row['price'];
+      $image = $row['image'];
   }
-  else{
-    echo '<script>alert("error Occured");</script>';
-  }
-}
+
 ?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -50,18 +46,15 @@ if(isset($_POST['btn']))
     <div class="navbar-nav navbar-expand-lg">
       <a class="ad1 nav-item btn btn-outline-primary"  href="foodlist.php">Food List <span class="sr-only">(current)</span></a>
     </div>
->
-
-      
+    &nbsp;&nbsp;
     <div class="navbar-nav navbar-expand-lg">
-      <a class="ad1 nav-item btn btn-outline-primary"  href="offer.php"> Add Offers img <span class="sr-only">(current)</span></a>
+      <a class="ad1 nav-item btn btn-outline-primary"  href="post.php"> Add Food Menu <span class="sr-only">(current)</span></a>
     </div>
 
     <div>
-      <a  style="color: white; padding-left: 600%; font-size: 120%"> Admin</a>
+      <a  style="color: white; padding-left: 650%; font-size: 120%"> Admin</a>
 
     </div>
-  </div>
   </div>
 
     <div><a class="btn btn-outline-danger" href="logout.php" style="color: white; text-decoration: none;">  Log-out</a>
@@ -69,27 +62,34 @@ if(isset($_POST['btn']))
     </div>
   </div>
 </nav>
+<br>
+  
 
-    <br>
+
+
    
-    <div class="alert alert btn-dark col-md-8 container" style="border: 5px blue" role="alert">
-      <center><h1>Write a Post</h1></center>
-      <form method="POST" action=""  enctype="multipart/form-data">
+    <div class="alert btn-dark col-md-8 container"  role="alert">
+      <center><h1>Write a Update </h1></center>
+
+
+      <form method="POST" action="update.php?eeid=<?php echo $eid ?>"  enctype="multipart/form-data">
         <div class="form-group">
     <label>Title</label>
-    <input name="title" type="text" class="form-control" placeholder="Title" required>
+    <input name="title" type="text" class="form-control" placeholder="Title" value="<?php echo $title ?>" required>
   </div>
+
   <div class="form-group">
    <label>Discription</label>
-   <textarea name="discription" class="form-control" rows="8" required></textarea>
+   <textarea name="discription" class="form-control" rows="8" value="<?php echo $discription ?>" required>
+   </textarea>
  </div>
  <div class="form-group">
   <label>Additional</label>
-  <textarea name="additional" class="form-control" rows="5" required></textarea>
+  <textarea name="additional" class="form-control" rows="5" value="<?php echo $additional ?>" required></textarea>
 </div>
 <div class="form-group">
     <label for="exampleFormControlSelect1">Category</label>
-    <select name="category" class="form-control" id="exampleFormControlSelect1" required>
+    <select name="category" class="form-control" id="exampleFormControlSelect1"  required>
       <option> Fast  </option>
       <option> cooldrink  </option>
       <option> Soop  </option>
@@ -111,18 +111,22 @@ if(isset($_POST['btn']))
   </div>
 <div class="form-group">
 <label>Price</label>
-<input name="price" type="text" class="form-control" placeholder="Price" required>
+<input name="price" type="text" class="form-control" placeholder="Price" value="<?php echo $price ?>" required>
 </div>
 
-
+ <div class="form-group">
+    <label for="exampleFormControlFile1">Previes Image:</label>
+    <br>
+    <img src="img/<?php echo $image ?>">
+  </div>
 
  <div class="form-group">
-    <label for="exampleFormControlFile1">Image:</label>
+    <label for="exampleFormControlFile1"> New Image:</label>
     <br>
-    <input type="hidden" name="size" value="1000000" required="required">
-    <input type="file" name="image" required="required">
+    <input type="hidden" name="size" value="1000000">
+    <input type="file" name="image">
   </div>
-  <center><button class="btn btn-outline-primary" type="submit" name="btn">POST</button></center>
+  <center><button class="btn btn-outline-primary" type="submit" name="update">UPDATE</button></center>
       </form>
     </div>
 
@@ -138,25 +142,4 @@ if(isset($_POST['btn']))
   </body>
 </html>
 
-
-
-
-
-
-<!--
-
-<div class="row">
-
-  <?php
-    include('db.php');
-    $query = mysqli_query($conn,"select * from post");
-
-    while($row = mysqli_fetch_array($query)){
-?>
-      <img class="img-tag" src="img/im2.jpg">
-      <h6 class="title"> <?php echo $row['title']; ?> </h6>
-      <h6 class="price"> <?php echo $row['price']; ?> </h6>
-    
- <?php   }  ?>
--->
 
